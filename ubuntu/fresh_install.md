@@ -71,6 +71,15 @@ sudo apt install build-essential
 
 
 ## Other software <a name="sw"/>
+### exfat format
+Most of external SSDs are now shipped with `exFAT` format. You would need to install additional packages read and write on those SSDs.
+
+```shell
+sudo apt install exfat-fuse exfat-utils
+sudo apt update
+```
+
+
 ### Offline (via Terminal) dictionary
 ```shell
 # client
@@ -162,7 +171,17 @@ cmake --version
 ```
 
 
+### Visual Studio Code
+Source: [https://code.visualstudio.com/docs/setup/linux](https://code.visualstudio.com/docs/setup/linux)
+
+```shell
+sudo snap install --classic code # or code-insiders
+```
+
+
 ### R and RStudio
+Source: [https://cran.r-project.org/bin/linux/ubuntu/](https://cran.r-project.org/bin/linux/ubuntu/)
+
 Install the stable version of **R** for Ubuntu:
 ```shell
 sudo apt install r-base
@@ -170,7 +189,7 @@ sudo apt install r-base
 
 If you need the latest version from [CRAN](https://cran.r-project.org):
 ```shell
-# add public key
+# add public key of Michael Rutter marutter@gmail.com
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 # append the link to CRAN to sources list
 sudo vi /etc/apt/sources.list
@@ -185,6 +204,24 @@ sudo apt install r-base
 sudo apt install r-base-dev
 ```
 
+_Remove `r-base` if it was installed from CRAN_
+```shell
+sudo apt remove --purge r-base r-base-dev
+# remove link from sources list
+sudo vi /etc/apt/sources.list
+# remove the following link from the list
+# deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/
+
+# remove key
+sudo apt-key list 
+# copy the keyid of Michael Rutter
+# keyid is the last 8 characters of the long hex under `pub'
+# this could be E084DAB9
+sudo apt-key del <keyid> # sudo apt-key del E084DAB9
+
+```
+
+
 **RStudio**
 ```shell
 cd ~/Downloads/software
@@ -196,4 +233,59 @@ wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-1.2.5033-amd64.d
 # install, this will probably fail due to dependencies 
 sudo dpkg -i rstudio-1.2.5033-amd64.deb
 # install dependencies
+```
+
+
+### Slack
+Source: [https://slack.com/downloads/linux](https://slack.com/downloads/linux)
+
+```shell
+cd ~/Downloads/software
+# version 4.3.2
+wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.3.2-amd64.deb
+sudo dpkg -i slack-desktop-4.3.2-amd64.deb
+sudo apt install -f
+# test
+slack --version
+```
+
+
+### Dropbox
+The default Dropbox folder is at `~/Dropbox`.
+
+Easy install: [https://www.dropbox.com/install-linux](https://www.dropbox.com/install-linux)
+```shell
+cd Downloads/software
+wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb -O dropbox_2020.03.04_amd64.deb
+sudo dpkg -i dropbox_2020.03.04_amd64.deb 
+sudo apt install -f
+# test
+dropbox --version
+```
+
+Or install `nautilus-dropbox` so that you can use the context menu from nautilus as well:
+```shell
+sudo apt install nautilus-dropbox
+# install the daemon
+dropbox start -i 
+```
+
+Build from source (cumbersome): [https://help.dropbox.com/installs-integrations/desktop/linux-commands](https://help.dropbox.com/installs-integrations/desktop/linux-commands)
+```shell
+# dependencies
+sudo apt install libnautilus-extension-dev 
+sudo apt install python-cairo python-gobject-2 python-gtk2
+# get the source
+cd ~/Downloads/software
+# version 2.10 (as of March 2020)
+wget https://linux.dropbox.com/packages/nautilus-dropbox-2.10.0.tar.bz2 
+# extract
+tar xjf nautilus-dropbox-2.10.0.tar.bz2
+# build and install
+cd nautilus-dropbox-2.10.0
+# ./configure --help for more details
+# the default PREFIX is /usr
+./configure --prefix=/opt
+make
+make install
 ```
