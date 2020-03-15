@@ -1,0 +1,1 @@
+# Collection of Ubuntu-related issues and solutions
