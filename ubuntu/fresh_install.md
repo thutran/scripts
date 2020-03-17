@@ -122,6 +122,15 @@ module -h
 
 This package uses _modulefile_ to change contents of `PATH` and `MANPATH` environment variables. More details and examples can be found in [module_files.md](module_files.md)
 
+To load modules automatically on startup, create a run-command file in your home folder `~/.modulerc`. Example of my RC file:
+```shell
+# ~/.modulerc
+module load /usr/share/modules/modulefiles/cmake-3.16.5
+module load /usr/share/modules/modulefiles/boost-1.72.0
+module load /usr/share/modules/modulefiles/fmt-6.1.2
+```
+Please note that abosulte paths to modulefiles should be used otherwise the shell would complain when loading the startup script in `/etc/profile.d/` (some error message like "Are you sure you want to continue?" at login and failing to load GUI).
+
 
 ### Git
 Source: [https://git-scm.com/download/linux](https://git-scm.com/download/linux)
@@ -288,4 +297,13 @@ cd nautilus-dropbox-2.10.0
 ./configure --prefix=/opt
 make
 make install
+```
+
+
+### TeX
+TeX and my favorite editor TeXStudio
+```shell
+# the full texlive takes up more than 2 GB to download and 
+# ...more than 4 GB after installation!
+sudo apt install texlive-full texstudio
 ```
